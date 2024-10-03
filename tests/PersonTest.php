@@ -14,25 +14,29 @@ class PersonTest extends TestCase
     public function test_it_should_validate_name_and_age_is_equal()
     {
         $person = new Person("Juan", 22);
+
         $this->assertEquals("Juan", $person->name());
         $this->assertEquals(22, $person->age());
     }
 
     public function test_it_should_validate_age_is_negative()
     {
-        $this->expectException(InvalidArgumentException::class);
         new Person("Juan", -2);
+
+        $this->expectException(InvalidArgumentException::class);
     }
 
     public function test_it_should_validate_age_is_not_numerical()
     {
-        $this->expectException(TypeError::class);
         new Person('Juan', 'veinte');
+
+        $this->expectException(TypeError::class);
     }
 
     public function test_it_should_validate_greetings()
     {
         $person = new Person('Juan', 20);
+
         $this->assertEquals(
             'Hello, my name is Juan and i am 20 years old',
             $person->greetings()
@@ -53,16 +57,18 @@ class PersonTest extends TestCase
 
     public function test_it_should_change_age_is_negative()
     {
-        $this->expectException(InvalidArgumentException::class);
         $person = new Person('Juan', 25);
         $person->setAge(-1);
+
+        $this->expectException(InvalidArgumentException::class);
     }
 
     public function test_it_should_change_age_is_not_numerical()
     {
-        $this->expectException(TypeError::class);
         $person = new Person('Juan', 25);
         $person->setAge('veinte');
+
+        $this->expectException(TypeError::class);
     }
 
     public function test_it_should_compared_age()
@@ -70,7 +76,7 @@ class PersonTest extends TestCase
         $person1 = new Person('Juan', 25);
         $person2 = new Person('Pedro', 30);
         $person3 = new Person('Luis', 20);
-       
+
         $this->assertFalse($person1->isOlderThan($person2));
         $this->assertTrue($person1->isOlderThan($person3));
     }
@@ -79,7 +85,7 @@ class PersonTest extends TestCase
     {
         $person1 = new Person('Juan', 20);
         $person2 = new Person('Pedro', 20);
-       
+
         $this->assertTrue($person1->isSameAge($person2));
         $this->assertEquals(true, $person1->isSameAge($person2));
     }
@@ -88,7 +94,7 @@ class PersonTest extends TestCase
     {
         $person1 = new Person('Juan', 20);
         $person2 = new Person('Pedro', 15);
-       
+        
         $this->assertFalse($person1->isSameAge($person2));
     }
 }

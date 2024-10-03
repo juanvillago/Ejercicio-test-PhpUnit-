@@ -12,7 +12,7 @@ class Person
     public function __construct(string $name, int $age)
 
     {
-        $this->validatePositiveAge( $age);
+        $this->validatePositiveAge($age);
         $this->name = $name;
         $this->age = $age;
     }
@@ -39,7 +39,7 @@ class Person
 
     public function setAge(int $age): void
     {
-        $this->validatePositiveAge( $age);
+        $this->validatePositiveAge($age);
         $this->age = $age;
     }
 
@@ -59,7 +59,6 @@ class Person
             throw new \InvalidArgumentException(message: "The age it should be a positive number");
         }
     }
- 
 }
 
 //$persona = new Person('Juan', 20);
