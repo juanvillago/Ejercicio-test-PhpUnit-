@@ -2,7 +2,13 @@
 
 declare(strict_types=1);
 
-namespace prueba;
+namespace Juan\Vehicle;
+
+use Juan\Vehicle\Car;
+use Juan\Vehicle\Motorcycle;
+use Juan\Vehicle\Truck;
+
+
 
 class Vehicle
 {
@@ -27,20 +33,21 @@ class Vehicle
     public function accelerate(int $amount): void
     {
         $newSpeed = $this->speed + $amount;
+
         if ($newSpeed > $this->getMaxSpeed()) {
-            $this->speed = $this->getMaxSpeed();
+            throw new \Exception('the velocity exceed the limit');
         } else {
             $this->speed = $newSpeed;
         }
+
         if ($this->speed < 0) {
             $this->speed = 0;
         }
     }
-
     public function brake(int $amount): void
     {
         $this->speed -= $amount;
-        // Validar que la velocidad no sea negativa
+
         if ($this->speed < 0) {
             $this->speed = 0;
         }
@@ -48,18 +55,18 @@ class Vehicle
 
     public function getMaxSpeed(): int
     {
-        if ($this instanceof Car) 
-        {
+        if ($this instanceof Car) {
             return self::MAX_SPEED_CAR;
-        } elseif ($this instanceof Motorcycle) {
-            return self::MAX_SPEED_MOTORCYCLE;
-        } elseif ($this instanceof Truck) {
-            return self::MAX_SPEED_TRUCK;
-        } elseif ($this instanceof Vehicle) {
-            return self::MAX_SPEED;
-        } else {
-            throw new \Exception('no vehicle recognized');
         }
+        if ($this instanceof Motorcycle) {
+            return self::MAX_SPEED_MOTORCYCLE;
+        }
+
+        if ($this instanceof Truck) {
+            return self::MAX_SPEED_TRUCK;
+        }
+
+        return self::MAX_SPEED;
     }
 
     public function getSpeed(): float|int
@@ -73,101 +80,12 @@ class Vehicle
     }
 }
 
-class Car extends Vehicle
-{
-    private $numberOfDoors;
-    const MAX_SPEED = self::MAX_SPEED_CAR;
 
-    public function __construct(string $brand, string $model, int $speed, string $transmissionType, int $numberOfDoors)
-    {
-
-        parent::__construct($brand, $model, $speed, $transmissionType);
-        $this->numberOfDoors = $this->validateNumberOfDoors($numberOfDoors);
-    }
-
-    public function getNumberOfDoors()
-    {
-        return $this->numberOfDoors;
-    }
-
-    private function validateNumberOfDoors(int $numberOfDoors): int
-    {
-        if ($numberOfDoors < 2 || $numberOfDoors > 4) 
-        {
-            throw new InvalidArgumentException('the number of doors must be between 2 and 4');
-        }
-        return $numberOfDoors;
-    }
-
-    public function accelerate(int $amount): void
-    {
-        $this->speed += $amount;
-    }
-}
-
-class Motorcycle extends Vehicle
-{
-    const MAX_SPEED = self::MAX_SPEED_MOTORCYCLE;
-    private int $cylinderCapacity;
-
-    public function __construct(string $brand, string $model, int $speed, string $transmissionType, int $cylinderCapacity)
-    {
-        parent::__construct($brand, $model, $speed, $transmissionType);
-        $this->cylinderCapacity = $this->validateCylinderCapacity($cylinderCapacity);
-    }
-
-    private function validateCylinderCapacity(int $cylinderCapacity): int
-    {
-        if ($cylinderCapacity < 50 || $cylinderCapacity > 2000) 
-        {
-            throw new InvalidArgumentException('the cilinder capacity must be between 50 and 2000 cc');
-        }
-        return $cylinderCapacity;
-    }
-
-    public function getcylinderCapacity()
-    {
-        return $this->cylinderCapacity;
-    }
-}
-
-
-class Truck extends Vehicle
-{
-    const MAX_SPEED = self::MAX_SPEED_TRUCK;
-    private float $loadCapacity;
-
-    public function __construct(string $brand, string $model, int $speed, string $transmissionType, float $loadCapacity)
-    {
-        parent::__construct($brand, $model, $speed, $transmissionType);
-        $this->loadCapacity = $this->validateloadCapacity($loadCapacity);
-    }
-
-    private function validateloadCapacity(float $loadCapacity): float
-    {
-        if ($loadCapacity < 0 || $loadCapacity > 10000) {
-            throw new InvalidArgumentException('the load capacity must be between 0 and 10000 kg');
-        }
-        return $loadCapacity;
-    }
-
-    public function getloadCapacity()
-    {
-        return $this->loadCapacity;
-    }
-}
-class InvalidArgumentException extends \Exception
-{
-    public function __construct($message)
-    {
-        parent::__construct($message);
-    }
-}
 
 /*
-$truck = new Truck('Ford', 'F-150', 220, 'automatic', 2000);
-echo "Velocidad actual: " . $truck->getSpeed() . "\n";
-echo "Velocidad máxima: " . $truck->getMaxSpeed() . "\n";
+$vehicle = new Vehicle('Ford', 'F-150', 280, 'automatic');
+echo "Velocidad actual: " . $vehicle->getSpeed() . "\n";
+echo "Velocidad máxima: " . $vehicle->getMaxSpeed() . "\n";
 
 echo "<br>". "<br>";
 
