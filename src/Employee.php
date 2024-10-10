@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Juan\Employee;
 
-use InvalidArgumentException;
-
-
 class Employee
 {
 
@@ -26,14 +23,12 @@ class Employee
         $this->ratetime = $ratetime;
     }
 
-    function registerhours($hours)
+    public function registerhours($hours)
     {
-
-        if ($hours < 0) {
-
-            throw new InvalidArgumentException("Las horas no pueden ser negativas");
+        if ($hours < 0) 
+        {
+            throw new \InvalidArgumentException("Las horas no pueden ser negativas");
         }
-
         $this->worktime += $hours;
     }
 
@@ -47,33 +42,27 @@ class Employee
     {
         return $this->name;
     }
-
     public function getsurnames(): string
     {
 
         return $this->surnames;
     }
-
     public function getemail(): string
     {
 
         return $this->email;
     }
-
     public function getphone(): int
     {
-
         return $this->phone;
     }
-
     public function getratetime(): float|int
     {
-
         return $this->ratetime;
     }
     public function getworktime(): float|int
     {
-
         return $this->worktime;
     }
 }
+
